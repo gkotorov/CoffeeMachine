@@ -1,0 +1,5 @@
+package prod;
+
+public enum Drink {
+	ESPRESSO, CAPPUCHINO, AMERICANO, LATTE, MOCHACHINO, CHOCOLATE
+	}
