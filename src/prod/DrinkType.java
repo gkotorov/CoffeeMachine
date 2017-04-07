@@ -1,5 +1,5 @@
 package prod;
 
-public enum Drink {
+public enum DrinkType {
 	ESPRESSO, CAPPUCHINO, AMERICANO, LATTE, MOCHACHINO, CHOCOLATE
 	}

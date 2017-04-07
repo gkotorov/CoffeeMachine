@@ -4,6 +4,11 @@ import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 
+import db.DrinkDao;
+import db.DrinkDaoImpl;
+import db.MachineStorageDao;
+import db.MachineStorageDaoImp;
+
 public class Machine {
 //	Singleton Pattern
 	private static Machine coffeeMachine = new Machine();
@@ -44,36 +49,51 @@ public class Machine {
 		}
 	}
 	public void makeEspresso(){
-		makeDrink(Drink.ESPRESSO);
+		makeDrink(DrinkType.ESPRESSO);
 	}
 	public void makeCappuchino(){
-		makeDrink(Drink.CAPPUCHINO);
+		makeDrink(DrinkType.CAPPUCHINO);
 	}
 	public void makeAmericano(){
-		makeDrink(Drink.AMERICANO);
+		makeDrink(DrinkType.AMERICANO);
 	}
 	public void makeLatte(){
-		makeDrink(Drink.LATTE);
+		makeDrink(DrinkType.LATTE);
 	}
 	public void makeMochachino(){
-		makeDrink(Drink.MOCHACHINO);
+		makeDrink(DrinkType.MOCHACHINO);
 	}
 	public void makeChocolate(){
-		makeDrink(Drink.CHOCOLATE);
+		makeDrink(DrinkType.CHOCOLATE);
 	}
 	
 	public void makeManyDrinks(String ord){
-		Espresso espresso = new Espresso(shugar);
-		Cappucchino cappucchino = new Cappucchino(shugar);
-		Americano americano = new Americano(shugar);
-		Latte latte = new Latte(shugar);
-		Mochachino mochachino = new Mochachino(shugar);
-		Chocolate chocolate = new Chocolate(shugar);
-
+		
+		DrinkDao drinkDao = new DrinkDaoImpl();
+		
+		drink = drinkDao.getAbstractDrink(DrinkType.ESPRESSO);
+		Espresso espresso = (Espresso)drink;
+		
+		drink = drinkDao.getAbstractDrink(DrinkType.CAPPUCHINO);
+		Cappucchino cappucchino = (Cappucchino)drink;
+		
+		drink = drinkDao.getAbstractDrink(DrinkType.AMERICANO);
+		Americano americano = (Americano)drink;
+		
+		drink = drinkDao.getAbstractDrink(DrinkType.LATTE);
+		Latte latte = (Latte)drink;
+		
+		drink = drinkDao.getAbstractDrink(DrinkType.MOCHACHINO);
+		Mochachino mochachino = (Mochachino)drink;
+		
+		drink = drinkDao.getAbstractDrink(DrinkType.CHOCOLATE);
+		Chocolate chocolate = (Chocolate)drink;
+		
+		AbstractDrink aDrink = null;
 		Map<AbstractDrink, Integer> drinksOrder = new HashMap<AbstractDrink, Integer>();
 		
 		String[] order = ord.split(",");
-		AbstractDrink aDrink = null;
+//		AbstractDrink aDrink = null;
 		int value = 0;
 		for(String s : order){
 			switch (s) {
@@ -126,15 +146,24 @@ public class Machine {
 
 	public void fillMachine(){
 		System.out.println("Please set: WATER, MILK, COFFEE, CACAO, SHUGAR, MONEY");
-		Map<IngredientType, Integer> ingred = new EnumMap<IngredientType, Integer>(IngredientType.class);
-		for(IngredientType ing : machineStorage.getAll().keySet()){
-			System.out.println("set " + ing.toString());
-			ingred.put(ing, 100);
+		try {
+			machineStorage.setWater(100);
+			machineStorage.setMilk(100);
+			machineStorage.setCoffee(100);
+			machineStorage.setCacao(100);
+			machineStorage.setShugar(100);
+			machineStorage.setMoney(100);
+		} catch (NotEnoughResourcesException e) {
+			System.out.println(e.getMessage());
 		}
-		machineStorage.putResources(ingred);
 	}
 	
 	public void showStatistic(){
+		
+		MachineStorageDao msDao = new MachineStorageDaoImp();
+		
+		msDao.getStorage();
+		
 		System.out.println("STORAGE:");
 		Map<IngredientType, Integer> storage = machineStorage.getAll();
 		for(IngredientType key : storage.keySet() ){
@@ -174,12 +203,12 @@ public class Machine {
 	private void getResources(AbstractDrink aDrink) throws NotEnoughResourcesException{
 		machineStorage.setWater(aDrink.getWater());
 		machineStorage.setMilk(aDrink.getMilk());
-		machineStorage.setCoffee(aDrink.getCofee());
+		machineStorage.setCoffee(aDrink.getCoffee());
 		machineStorage.setCacao(aDrink.getCacao());
 		machineStorage.setShugar(aDrink.getShugar());
 		machineStorage.setMoney(aDrink.getMoney());
 	}
-	private void makeDrink(Drink d){
+	private void makeDrink(DrinkType d){
 		drink = df.getDrink(d, shugar);
 		try{
 			getResources(drink);

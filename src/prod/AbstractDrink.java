@@ -1,6 +1,6 @@
 package prod;
 
-public abstract class AbstractDrink {
+public class AbstractDrink {
 	
 //	private String name;
 //	private int water;
@@ -13,16 +13,16 @@ public abstract class AbstractDrink {
 	private String name;
 	private Ingredient water;
 	private Ingredient milk;
-	private Ingredient cofee;
+	private Ingredient coffee;
 	private Ingredient cacao;
 	private Ingredient shugar;
 	private Ingredient money;
 	
-	public AbstractDrink(String name, int water, int milk, int cofee, int cacao, int shugar, int money){
+	public AbstractDrink(String name, int water, int milk, int coffee, int cacao, int shugar, int money){
 		this.name = name;
 		this.water = new Ingredient(IngredientType.WATER, water);
 		this.milk = new Ingredient(IngredientType.MILK, milk);
-		this.cofee = new Ingredient(IngredientType.COFFEE, cofee);
+		this.coffee = new Ingredient(IngredientType.COFFEE, coffee);
 		this.cacao = new Ingredient(IngredientType.CACAO, cacao);
 		this.shugar = new Ingredient(IngredientType.SHUGAR, shugar);
 		this.money = new Ingredient(IngredientType.MONEY, money);
@@ -48,8 +48,8 @@ public abstract class AbstractDrink {
 		return milk.getValue();
 	}
 
-	public int getCofee() {
-		return cofee.getValue();
+	public int getCoffee() {
+		return coffee.getValue();
 	}
 
 	public int getCacao() {
@@ -74,7 +74,7 @@ public abstract class AbstractDrink {
         return aDrink.name.equals(name) &&
         		aDrink.water == water &&
         		aDrink.milk == milk &&
-        		aDrink.cofee == cofee &&
+        		aDrink.coffee == coffee &&
         		aDrink.cacao == cacao &&
         		aDrink.shugar == shugar &&
         		aDrink.money == money;
@@ -87,7 +87,7 @@ public abstract class AbstractDrink {
         result = 31 * result + name.hashCode();
         result = 31 * result + water.hashCode();
         result = 31 * result + milk.hashCode();
-        result = 31 * result + cofee.hashCode();
+        result = 31 * result + coffee.hashCode();
         result = 31 * result + cacao.hashCode();
         result = 31 * result + shugar.hashCode();
         result = 31 * result + money.hashCode();

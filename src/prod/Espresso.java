@@ -1,10 +1,9 @@
 package prod;
 
-
 public class Espresso extends AbstractDrink {
 
-	public Espresso(int shugar) {
-		super("la espresso", 50, 0, 5, 0, shugar, -80);
+	public Espresso(String name, int water, int milk, int coffee, int cacao, int shugar, int money) {
+		super(name, water, milk, coffee, cacao, shugar, money);
 	}
-		
+
 }

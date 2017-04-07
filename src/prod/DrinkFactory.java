@@ -1,23 +1,41 @@
 package prod;
 
+import db.DrinkDao;
+import db.DrinkDaoImpl;
+import db.MachineStorageDao;
+import db.MachineStorageDaoImp;
+
 public class DrinkFactory {
-	public AbstractDrink getDrink(Drink drink, int shugar){
+	public AbstractDrink getDrink(DrinkType drink, int shugar){
+
+		DrinkDao drDao = new DrinkDaoImpl();
+		AbstractDrink aDrink = drDao.getAbstractDrink(drink);
+		
 		switch (drink) {
 		case ESPRESSO:
-			return new Espresso(shugar);
+			return (Espresso)aDrink;
 		case CAPPUCHINO:
-			return new Cappucchino(shugar);
+			
+			MachineStorageDao msDao = new MachineStorageDaoImp();
+			
+			msDao.getStorage();
+			
+			return (Cappucchino)aDrink;
 		case AMERICANO:
-			return new Americano(shugar);
+			
+			MachineStorageDao msDao1 = new MachineStorageDaoImp();
+			
+			msDao1.updateMachineStorage(MachineStorage.getInstance());
+			
+			return (Americano)aDrink;
 		case CHOCOLATE:
-			return new Chocolate(shugar);
+			return (Chocolate)aDrink;
 		case LATTE:
-			return new Latte(shugar);
+			return (Latte)aDrink;
 		case MOCHACHINO:
-			return new Mochachino(shugar);
+			return (Mochachino)aDrink;
 		default:
 			return null;
-//			return new Espresso(shugar);
 		}
 	}
 }

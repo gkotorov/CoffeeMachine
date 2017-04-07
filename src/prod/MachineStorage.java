@@ -7,6 +7,14 @@ public class MachineStorage {
 	
 	Map<IngredientType, Integer> ingred = new EnumMap<IngredientType, Integer>(IngredientType.class);
 	
+//	private int water = 1000;
+//	private int milk = 1000;
+//	private int cofee = 1000;
+//	private int cacao = 1000;
+//	private int shugar = 1000;
+//	private int money = 100;
+//	int a = Ingredient.values().length;
+	
 	private static MachineStorage machineStorage = new MachineStorage();
 	private MachineStorage(){
 		ingred.put(IngredientType.WATER, 1000);
@@ -23,6 +31,12 @@ public class MachineStorage {
 	public Map<IngredientType, Integer> getAll(){
 		return ingred;
 	}
+	
+	public void setAll(Map<IngredientType, Integer> ingred){
+		this.ingred = ingred;
+	}
+	
+//	sets and gets
 	public void setWater(int ingValue) throws NotEnoughResourcesException{
 		setResourcese(IngredientType.WATER, ingValue);
 	}
