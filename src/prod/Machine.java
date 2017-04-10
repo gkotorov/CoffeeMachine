@@ -27,6 +27,7 @@ public class Machine {
 	final static int SHUGAR = 990;
 	final static int MONEY = 100;
 	
+	private static MachineStorageDao msDao = new MachineStorageDaoImp();
 	private static MachineStorage machineStorage = MachineStorage.getInstance();
 	private static DrinkFactory df = new DrinkFactory();
 	private static AbstractDrink drink;
@@ -159,9 +160,6 @@ public class Machine {
 	}
 	
 	public void showStatistic(){
-		
-		MachineStorageDao msDao = new MachineStorageDaoImp();
-		
 		msDao.getStorage();
 		
 		System.out.println("STORAGE:");
@@ -209,11 +207,14 @@ public class Machine {
 		machineStorage.setMoney(aDrink.getMoney());
 	}
 	private void makeDrink(DrinkType d){
+		msDao.getStorage();
+		
 		drink = df.getDrink(d, shugar);
 		try{
 			getResources(drink);
 			drink.makeDrink();
 			checkStorage();
+			msDao.updateMachineStorage(MachineStorage.getInstance());
 		} catch(NotEnoughResourcesException e){
 			System.out.println(e.getMessage());
 			System.out.println("Please try another option!");

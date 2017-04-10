@@ -14,8 +14,58 @@ import prod.Mochachino;
 
 public class DrinkDaoImpl implements DrinkDao {
 
-	DbManager a = new DbManager();
+	static final String drinkView = "`coffee_machine`.`drink_view`";
 
+	static final String selectDrink = "Select * from " + drinkView + " where name = ?";
+	
+	// JDBC driver name and database URL
+	static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+	static final String DB_URL = "jdbc:mysql://localhost:3306/coffee_machine";
+
+	// Database credentials
+	static final String USER = "root";
+	static final String PASS = "ss11";
+
+	static Connection conn = null;
+	static PreparedStatement stmt = null;
+
+	static ResultSet rs = null;
+
+	public static void init() {
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			conn = DriverManager.getConnection(DB_URL, USER, PASS);
+		} catch (SQLException se) {
+			se.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void close() {
+		try {
+			rs.close();
+			stmt.close();
+			conn.close();
+		} catch (SQLException se) {
+			se.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (stmt != null)
+					stmt.close();
+			} catch (SQLException se2) {
+			}
+			try {
+				if (conn != null)
+					conn.close();
+			} catch (SQLException se) {
+				se.printStackTrace();
+			}
+		}
+	}
+	
 	@Override
 	public List<AbstractDrink> getAllAbstractDrinks() {
 		return null;
@@ -23,12 +73,6 @@ public class DrinkDaoImpl implements DrinkDao {
 
 	@Override
 	public AbstractDrink getAbstractDrink(DrinkType drinkType) {
-
-		String sqlQuery = "Select * from `coffee_machine`.`drink_view` where name = '"
-				+ drinkType.toString() + "'";
-
-		DbManager.init();
-		java.sql.ResultSet rs = DbManager.getResultSet(sqlQuery);
 
 		int id = 0;
 		String name = "drink name";
@@ -38,8 +82,14 @@ public class DrinkDaoImpl implements DrinkDao {
 		int cacao = 0;
 		int shugar = 0;
 		int money = 0;
+		
+		init();
 
 		try {
+			stmt = conn.prepareStatement(selectDrink);
+			stmt.setString(1, drinkType.toString());
+			rs = stmt.executeQuery();
+			
 			while (rs.next()) {
 				// Retrieve by column name
 				id = rs.getInt("id");
@@ -64,7 +114,7 @@ public class DrinkDaoImpl implements DrinkDao {
 			e1.printStackTrace();
 		}
 
-		DbManager.close();
+		close();
 
 		if (money > 0) {
 			money *= (-1);
