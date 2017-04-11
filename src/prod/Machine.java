@@ -148,15 +148,16 @@ public class Machine {
 	public void fillMachine(){
 		System.out.println("Please set: WATER, MILK, COFFEE, CACAO, SHUGAR, MONEY");
 		try {
-			machineStorage.setWater(100);
-			machineStorage.setMilk(100);
-			machineStorage.setCoffee(100);
-			machineStorage.setCacao(100);
-			machineStorage.setShugar(100);
-			machineStorage.setMoney(100);
+			machineStorage.setWater(-100);
+			machineStorage.setMilk(-100);
+			machineStorage.setCoffee(-100);
+			machineStorage.setCacao(-100);
+			machineStorage.setShugar(-100);
+			machineStorage.setMoney(-100);
 		} catch (NotEnoughResourcesException e) {
 			System.out.println(e.getMessage());
 		}
+		msDao.updateMachineStorage();
 	}
 	
 	public void showStatistic(){
@@ -214,7 +215,7 @@ public class Machine {
 			getResources(drink);
 			drink.makeDrink();
 			checkStorage();
-			msDao.updateMachineStorage(MachineStorage.getInstance());
+			msDao.updateMachineStorage();
 		} catch(NotEnoughResourcesException e){
 			System.out.println(e.getMessage());
 			System.out.println("Please try another option!");

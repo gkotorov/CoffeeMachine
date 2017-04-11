@@ -3,6 +3,8 @@ package prod;
 import java.util.EnumMap;
 import java.util.Map;
 
+import db.MachineStorageDaoImp;
+
 public class MachineStorage {
 	
 	Map<IngredientType, Integer> ingred = new EnumMap<IngredientType, Integer>(IngredientType.class);
@@ -17,6 +19,7 @@ public class MachineStorage {
 	
 	private static MachineStorage machineStorage = new MachineStorage();
 	private MachineStorage(){
+		MachineStorageDaoImp.initDB();
 		ingred.put(IngredientType.WATER, 1000);
 		ingred.put(IngredientType.MILK, 1000);
 		ingred.put(IngredientType.COFFEE, 1000);
