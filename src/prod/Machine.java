@@ -148,12 +148,12 @@ public class Machine {
 	public void fillMachine(){
 		System.out.println("Please set: WATER, MILK, COFFEE, CACAO, SHUGAR, MONEY");
 		try {
-			machineStorage.setWater(-100);
-			machineStorage.setMilk(-100);
-			machineStorage.setCoffee(-100);
-			machineStorage.setCacao(-100);
-			machineStorage.setShugar(-100);
-			machineStorage.setMoney(-100);
+			machineStorage.fillWater(100);
+			machineStorage.fillMilk(100);
+			machineStorage.fillCoffee(100);
+			machineStorage.fillCacao(100);
+			machineStorage.fillShugar(100);
+			machineStorage.fillMoney(100);
 		} catch (NotEnoughResourcesException e) {
 			System.out.println(e.getMessage());
 		}
@@ -200,12 +200,12 @@ public class Machine {
 		return minIngr;
 	}
 	private void getResources(AbstractDrink aDrink) throws NotEnoughResourcesException{
-		machineStorage.setWater(aDrink.getWater());
-		machineStorage.setMilk(aDrink.getMilk());
-		machineStorage.setCoffee(aDrink.getCoffee());
-		machineStorage.setCacao(aDrink.getCacao());
-		machineStorage.setShugar(aDrink.getShugar());
-		machineStorage.setMoney(aDrink.getMoney());
+		machineStorage.subtractWater(aDrink.getWater());
+		machineStorage.subtractMilk(aDrink.getMilk());
+		machineStorage.subtractCoffee(aDrink.getCoffee());
+		machineStorage.subtractCacao(aDrink.getCacao());
+		machineStorage.subtractShugar(aDrink.getShugar());
+		machineStorage.subtractMoney(aDrink.getMoney());
 	}
 	private void makeDrink(DrinkType d){
 		msDao.getStorage();

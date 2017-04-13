@@ -13,28 +13,15 @@ import prod.Latte;
 import prod.Mochachino;
 
 public class DrinkDaoImpl implements DrinkDao {
-
-	static final String drinkView = "`coffee_machine`.`drink_view`";
-
-	static final String selectDrink = "Select * from " + drinkView + " where name = ?";
 	
-	// JDBC driver name and database URL
-	static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-	static final String DB_URL = "jdbc:mysql://localhost:3306/coffee_machine";
-
-	// Database credentials
-	static final String USER = "root";
-	static final String PASS = "ss11";
-
 	static Connection conn = null;
 	static PreparedStatement stmt = null;
-
 	static ResultSet rs = null;
 
-	public static void init() {
+	public static void initConn() {
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			conn = DriverManager.getConnection(DB_URL, USER, PASS);
+			Class.forName(ConstsDB.JDBC_DRIVER);
+			conn = DriverManager.getConnection(ConstsDB.DB_URL, ConstsDB.USER, ConstsDB.PASS);
 		} catch (SQLException se) {
 			se.printStackTrace();
 		} catch (Exception e) {
@@ -83,10 +70,10 @@ public class DrinkDaoImpl implements DrinkDao {
 		int shugar = 0;
 		int money = 0;
 		
-		init();
+		initConn();
 
 		try {
-			stmt = conn.prepareStatement(selectDrink);
+			stmt = conn.prepareStatement(ConstsDB.SELECT_VIEW_DRINK);
 			stmt.setString(1, drinkType.toString());
 			rs = stmt.executeQuery();
 			
